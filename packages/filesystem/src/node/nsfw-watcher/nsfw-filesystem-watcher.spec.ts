@@ -38,7 +38,7 @@ describe('nsfw-filesystem-watcher', function (): void {
     beforeEach(async () => {
         root = FileUri.create(fs.realpathSync(temp.mkdirSync('node-fs-root')));
         watcherServer = createNsfwFileSystemWatcherServer();
-        watcherId = await watcherServer.watchFileChanges(root.toString());
+        watcherId = await watcherServer.watchFileChanges(0, root.toString());
         await sleep(2000);
     });
 
@@ -50,7 +50,6 @@ describe('nsfw-filesystem-watcher', function (): void {
     it('Should receive file changes events from in the workspace by default.', async function (): Promise<void> {
         if (process.platform === 'win32') {
             this.skip();
-            return;
         }
         const actualUris = new Set<string>();
 
@@ -87,7 +86,6 @@ describe('nsfw-filesystem-watcher', function (): void {
     it('Should not receive file changes events from in the workspace by default if unwatched', async function (): Promise<void> {
         if (process.platform === 'win32') {
             this.skip();
-            return;
         }
         const actualUris = new Set<string>();
 
